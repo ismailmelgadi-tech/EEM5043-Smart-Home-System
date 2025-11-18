@@ -53,3 +53,22 @@ dkms.conf
 
 # debug information files
 *.dwo
+# Ignore build output and configuration files
+/build/
+/sdkconfig
+/sdkconfig.old
+
+# VS Code / IDE settings (optional, if you don't want to share user settings)
+.vscode/*.user
+
+# ESP-IDF specific files
+.ninja_deps
+.ninja_log
+
+# Python virtual environments (if used)
+.venv/
+venv/
+
+# Embedded Git repository content (this was the issue you had before)
+# This prevents accidentally committing the .git folder itself.
+.git/
