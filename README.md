@@ -1,4 +1,5 @@
-# Temperature Sensor Example
+# EEM5043-Smart-Home-System: Temperature Sensor Example
+IoT Project using ESP32-C3, FreeRTOS, and RainMaker for Smart Home Automation
 
 ## Build and Flash firmware
 
@@ -20,4 +21,3 @@ The ESP32-S2-Saola-1 board has the RGB LED connected to GPIO 18. However, a few 
 ### Reset to Factory
 
 Press and hold the BOOT button for more than 3 seconds to reset the board to factory defaults. You will have to provision the board again to use it.
-
