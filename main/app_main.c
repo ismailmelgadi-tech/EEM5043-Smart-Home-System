@@ -25,6 +25,7 @@
 static const char *TAG = "app_main";
 
 esp_rmaker_device_t *temp_sensor_device;
+esp_rmaker_device_t *switch_device;
 
 void app_main()
 {
@@ -58,11 +59,33 @@ void app_main()
         abort();
     }
 
-    /* Create a device and add the relevant parameters to it */
+    /*
+     * Device 1: Temperature Sensor
+     * Handles: Temp, Humidity
+     */
     temp_sensor_device = esp_rmaker_temp_sensor_device_create("Temperature Sensor", NULL, app_get_current_temperature());
+
+    /* Add Humidity Parameter to Sensor Device */
+    esp_rmaker_param_t *humidity_param = esp_rmaker_param_create("Humidity", "esp.param.humidity", esp_rmaker_float(app_get_current_humidity()), PROP_FLAG_READ);
+    esp_rmaker_device_add_param(temp_sensor_device, humidity_param);
+
     esp_rmaker_node_add_device(node, temp_sensor_device);
 
-    /* Enable OTA */
+    /*
+     * Device 2: Actuator (Fan/Alarm)
+     * Handles: Power (Switch)
+     * Task 4: Voice Assistant Control
+     * This enables Voice Control "Turn on the Fan" via Google/Alexa
+     */
+    switch_device = esp_rmaker_switch_device_create("Fan", NULL, app_get_switch_state());
+    esp_rmaker_device_add_cb(switch_device, app_switch_write_cb, NULL);
+    esp_rmaker_node_add_device(node, switch_device);
+
+    /*
+     * Task 5: OTA Update Task
+     * Handles firmware update requests.
+     * This library function spawns the dedicated OTA task.
+     */
     esp_rmaker_ota_enable_default();
 
     /* Enable Insights. Requires CONFIG_ESP_INSIGHTS_ENABLED=y */
