@@ -199,7 +199,10 @@ esp_err_t app_sensor_init(void)
 
 void app_driver_init()
 {
+    // Initialize sensors, LEDs, and tasks
     app_sensor_init();
+
+    // Initialize reset button
     app_reset_button_register(app_reset_button_create(BUTTON_GPIO, BUTTON_ACTIVE_LEVEL),
                 WIFI_RESET_BUTTON_TIMEOUT, FACTORY_RESET_BUTTON_TIMEOUT);
 }
