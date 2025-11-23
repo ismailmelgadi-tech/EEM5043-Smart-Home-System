@@ -1,10 +1,10 @@
-/*  Temperature Sensor demo implementation using RGB LED and timer
+/* Temperature Sensor demo implementation using RGB LED and timer
 
-   This example code is in the Public Domain (or CC0 licensed, at your option.)
+    This example code is in the Public Domain (or CC0 licensed, at your option.)
 
-   Unless required by applicable law or agreed to in writing, this
-   software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
-   CONDITIONS OF ANY KIND, either express or implied.
+    Unless required by applicable law or agreed to in writing, this
+    software is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR
+    CONDITIONS OF ANY KIND, either express or implied.
 */
 
 #include <freertos/FreeRTOS.h>
@@ -62,11 +62,13 @@ static esp_err_t write_cb(const esp_rmaker_device_t *device, const esp_rmaker_pa
     }
 
     if (strcmp(esp_rmaker_param_get_name(param), ESP_RMAKER_DEF_POWER_NAME) == 0) {
+        // --- تصحيح: استخدام val.val.b ---
         ESP_LOGI(TAG, "Received value = %s for %s - %s",
-                val.type.b ? "true" : "false", esp_rmaker_device_get_name(device),
+                val.val.b ? "true" : "false", esp_rmaker_device_get_name(device),
                 esp_rmaker_param_get_name(param));
 
-        g_switch_state = val.type.b;
+        // --- تصحيح: استخدام val.val.b ---
+        g_switch_state = val.val.b;
 
         if (g_switch_state) {
             // Restore color
@@ -103,7 +105,10 @@ static void app_sensor_reading_task(void *pvParameters)
             ESP_LOGW(TAG, "DHT11 Read Failed");
         }
 
-        vTaskDelay((REPORTING_PERIOD * 1000) / portTICK_PERIOD_MS);
+        // -----------------------------------------------------------
+        // تم التعديل هنا: الانتظار لمدة 5000 ميلي ثانية (5 ثواني)
+        // -----------------------------------------------------------
+        vTaskDelay(5000 / portTICK_PERIOD_MS);
     }
 }
 
