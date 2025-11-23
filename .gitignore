@@ -71,4 +71,4 @@ venv/
 
 # Embedded Git repository content (this was the issue you had before)
 # This prevents accidentally committing the .git folder itself.
-.git/
+.git/managed_components/
