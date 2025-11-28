@@ -1,0 +1,9 @@
+## هذا الملف يخبر نظام البناء بمكونات ESP-IDF الخارجية التي يعتمد عليها مشروعك.
+dependencies:
+  # المكون الرئيسي: مكتبة ESP-RainMaker الرسمية من Espressif.
+  # تم تحديد نطاق الإصدار لضمان التوافق مع إعداداتك.
+  espressif/esp_rainmaker: '>=3.4.0,<4.0.0'
+
+  # المكون الضروري لمعالجة JSON، والذي تستخدمه RainMaker.
+  espressif/cjson: '*'
+  espressif/qrcode: '*'

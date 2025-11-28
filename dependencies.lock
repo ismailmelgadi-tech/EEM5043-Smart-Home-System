@@ -1,4 +1,10 @@
 dependencies:
+  esp_rainmaker:
+    dependencies: []
+    source:
+      path: C:\Users\ismai\EEM5043-Smart-Home-System\components\esp_rainmaker
+      type: local
+    version: 1.7.9
   espressif/button:
     component_hash: 4ed25fcf354b48aa5e5680b9e7549e38d7738f9b613c94a2e39119c100db9c95
     dependencies:
@@ -124,32 +130,6 @@ dependencies:
       registry_url: https://components.espressif.com/
       type: service
     version: 1.3.1
-  espressif/esp_rainmaker:
-    dependencies:
-    - name: idf
-      version: '>=5.1'
-    - name: espressif/mdns
-      version: ^1.2.0
-    - name: espressif/esp_secure_cert_mgr
-      version: ^2.2.1
-    - name: espressif/rmaker_common
-      version: ~1.5.0
-    - name: espressif/json_parser
-      version: ~1.0.3
-    - name: espressif/json_generator
-      version: ~1.1.1
-    - name: espressif/esp_schedule
-      version: ~1.3.2
-    - name: espressif/network_provisioning
-      version: ~1.0.0
-    - name: espressif/esp_rcp_update
-      version: ^1.2.0
-    - name: espressif/cbor
-      version: ~0.6
-    source:
-      path: C:\Users\ismai\.espressif\esp-rainmaker\components\esp_rainmaker
-      type: local
-    version: 1.7.6
   espressif/esp_rcp_update:
     component_hash: 9c9ad7941d159764f656e20d12ef6e343d178f977582a72c753b4190a6bba2a0
     dependencies:
@@ -229,15 +209,21 @@ dependencies:
       type: service
     version: 1.9.1
   espressif/network_provisioning:
-    component_hash: 21c45dd9cf570c12671e1678ddcfabe77471afa979bcff207a8478b45b58667a
+    component_hash: 13ddde9b7f826f9be42a318b9cc869d4c6093b1098222e97f7c1864afd012c3c
     dependencies:
+    - name: espressif/cjson
+      registry_url: https://components.espressif.com
+      require: private
+      rules:
+      - if: idf_version >= 6.0
+      version: ^1.7.19
     - name: idf
       require: private
       version: '>=5.1'
     source:
       registry_url: https://components.espressif.com/
       type: service
-    version: 1.0.5
+    version: 1.2.0
   espressif/qrcode:
     component_hash: 3b493771bc5d6ad30cbf87c25bf784aada8a08c941504355b55d6b75518ed7bc
     dependencies: []
@@ -261,11 +247,19 @@ dependencies:
     version: 5.5.1
 direct_dependencies:
 - espressif/button
+- espressif/cbor
 - espressif/esp_insights
 - espressif/esp_rainmaker
+- espressif/esp_rcp_update
+- espressif/esp_schedule
+- espressif/esp_secure_cert_mgr
+- espressif/json_generator
+- espressif/json_parser
+- espressif/mdns
+- espressif/network_provisioning
 - espressif/qrcode
 - espressif/rmaker_common
 - idf
-manifest_hash: d3cc144c85b2ad4c5773d6176eb175491d42e4c2d4130937ebd49e81076a5fe2
+manifest_hash: 504e97fe3595980b375fae3218c377b2a178241d4ed5a43b555c9cb404e2d124
 target: esp32c3
 version: 2.0.0

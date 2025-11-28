@@ -1,41 +1,36 @@
-CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+# ESP32C3 Basic Configuration
+CONFIG_IDF_TARGET="esp32c3"
 
-#
-# Use partition table which makes use of flash to the fullest
-# Can be used for other platforms as well. But please keep in mind that fctry partition address is
-# different than default, and the new address needs to be specified to `rainmaker.py claim`
-#
+# Enable RainMaker
+CONFIG_ESP_RMAKER_WORK_QUEUE_TASK_STACK=4096
+
+# WiFi Configuration
+CONFIG_ESP_WIFI_SOFTAP_SUPPORT=n
+
+# FreeRTOS
+CONFIG_FREERTOS_HZ=1000
+
+# Partition Table
 CONFIG_PARTITION_TABLE_CUSTOM=y
-CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions_4mb_optimised.csv"
+CONFIG_PARTITION_TABLE_CUSTOM_FILENAME="partitions.csv"
+CONFIG_PARTITION_TABLE_FILENAME="partitions.csv"
 
-# To accomodate security features
-CONFIG_PARTITION_TABLE_OFFSET=0xc000
-
-# mbedtls
-CONFIG_MBEDTLS_DYNAMIC_BUFFER=y
-CONFIG_MBEDTLS_DYNAMIC_FREE_PEER_CERT=y
-CONFIG_MBEDTLS_DYNAMIC_FREE_CONFIG_DATA=y
-CONFIG_MBEDTLS_CERTIFICATE_BUNDLE_DEFAULT_CMN=y
-
-# For BLE Provisioning using NimBLE stack (Not applicable for ESP32-S2)
+# BLE (for provisioning if needed later)
 CONFIG_BT_ENABLED=y
-CONFIG_BTDM_CTRL_MODE_BLE_ONLY=y
-CONFIG_BT_NIMBLE_ENABLED=y
+CONFIG_BT_BLUEDROID_ENABLED=y
+CONFIG_BT_NIMBLE_ENABLED=n
 
-# Temporary Fix for Timer Overflows
-CONFIG_FREERTOS_TIMER_TASK_STACK_DEPTH=3120
+# Log levels
+CONFIG_LOG_DEFAULT_LEVEL_INFO=y
+CONFIG_LOG_MAXIMUM_LEVEL_VERBOSE=y
 
-# For additional security on reset to factory
-CONFIG_ESP_RMAKER_USER_ID_CHECK=y
+# ESP System
+CONFIG_ESP_SYSTEM_EVENT_TASK_STACK_SIZE=4096
 
-# Secure Local Control
-CONFIG_ESP_RMAKER_LOCAL_CTRL_AUTO_ENABLE=y
-#CONFIG_ESP_RMAKER_LOCAL_CTRL_ENABLE is deprecated but will continue to work
-CONFIG_ESP_RMAKER_LOCAL_CTRL_SECURITY_1=y
+# Flash size
+CONFIG_ESPTOOLPY_FLASHSIZE_4MB=y
+CONFIG_ESPTOOLPY_FLASHSIZE="4MB"
+CONFIG_ESPTOOLPY_FLASHFREQ_80M=y
 
-# Application Rollback
-CONFIG_BOOTLOADER_APP_ROLLBACK_ENABLE=y
-
-# If ESP-Insights is enabled, we need MQTT transport selected
-# Takes out manual efforts to enable this option
-CONFIG_ESP_INSIGHTS_TRANSPORT_MQTT=y
+# Optimization
+CONFIG_COMPILER_OPTIMIZATION_SIZE=y
