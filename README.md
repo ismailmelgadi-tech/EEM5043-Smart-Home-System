@@ -1,23 +1,59 @@
-# EEM5043-Smart-Home-System: Temperature Sensor Example
-IoT Project using ESP32-C3, FreeRTOS, and RainMaker for Smart Home Automation
+# Smart Home & Emergency Response System (IoT)
 
-## Build and Flash firmware
+**Authors:** Asmaeil Mohammed Jamil Elgadi(24009871)/Walid Salem balied elbagi (24008232)
+**Target Device:** ESP32-C3  
+**Framework:** ESP-IDF (v5.5.1) | FreeRTOS | ESP RainMaker
 
-Follow the ESP RainMaker Documentation [Get Started](https://rainmaker.espressif.com/docs/get-started.html) section to build and flash this firmware. Just note the path of this example.
+## 📖 Project Overview
+This project is an advanced IoT-based Smart Home and Safety System designed for the **ESP32-C3** microcontroller. It utilizes **FreeRTOS** for efficient multitasking and **ESP RainMaker** for cloud integration.
 
-## What to expect in this example?
+The system is designed to monitor environmental conditions (Temperature & Humidity) and automatically trigger safety protocols in case of emergencies (e.g., high temperature or manual emergency activation), activating alarms, sprinklers, and sending real-time push notifications to the user's mobile phone.
 
-- This example uses esp timer and the RGB LED on the ESP32-S2-Saola-1/ESP32-C3-DevKitC board to demonstrate a temperature sensor.
-- The temperature value is changed by 0.5 every minute.
-- It starts at some default value (25.0) and goes on increasing till 99.5. Then it starts reducing till it comes to 0.5. The cycle keeps repeating.
-- The LED color indicates the temperature.
-- LED hue changes from 200 (bluish) to 0 (reddish) as the temperature increases from 0.5 to 99.5.
-- You can check the temperature changes in the phone app.
+## ✨ Key Features
+* **Real-Time Monitoring:** Continuous reading of Temperature and Humidity using DHT11 sensor.
+* **Cloud Integration:** Full remote control and monitoring via **ESP RainMaker App**.
+* **Emergency Automation:** Automatic activation of "Fire Mode" (Water Sprinkler, Alarm, Extractor Fan) when thresholds are breached.
+* **Voice Control:** Compatible with **Alexa** and **Google Assistant** via RainMaker standard device types.
+* **Push Notifications:** Instant alerts sent to the mobile app during emergency events.
+* **OLED Display:** Local status visualization (Sensor data, System State, Wi-Fi Status).
+* **OTA Updates:** Over-the-Air firmware update capability.
 
-### LED not working?
+## 🛠️ Hardware Requirements
+* **Microcontroller:** ESP32-C3 DevKitM-1
+* **Sensors:** DHT11 (Temperature & Humidity)
+* **Display:** 0.96" OLED Display (SSD1306 I2C)
+* **Actuators (Simulated via LEDs/Relays):**
+    * Air Conditioner (Fan)
+    * Fire Water Sprinkler
+    * Sound Alarm (Buzzer)
+    * Fire Indicator LED
+    * Extractor Fan
+* **Input:** Emergency Push Button
 
-The ESP32-S2-Saola-1 board has the RGB LED connected to GPIO 18. However, a few earlier boards may have it on GPIO 17. Please use `CONFIG_WS2812_LED_GPIO` to set the appropriate value.
+## 🏗️ Software Architecture (RTOS Implementation)
+The firmware is structured using **FreeRTOS** to ensure non-blocking operation and efficient resource management.
 
-### Reset to Factory
+| Task / Mechanism | Functionality |
+| :--- | :--- |
+| **Sensor Task** | Periodically reads DHT11 data and sends it to the Controller via **Queue**. |
+| **Controller Task** | Processes sensor data, handles logic (Auto-Cooling / Emergency), and updates the OLED Display protected by **Mutex**. |
+| **Emergency Monitor** | Interrupt-driven or polled task to detect physical emergency button presses instantly. |
+| **RainMaker Agent** | Background task handling MQTT communication, Cloud updates, and OTA. |
+| **Inter-Task Comm.** | Uses `xQueue` for sensor data and `xSemaphore` (Mutex) for shared I2C display access. |
 
-Press and hold the BOOT button for more than 3 seconds to reset the board to factory defaults. You will have to provision the board again to use it.
+## ⚙️ Configuration & Optimization
+To run this project on the single-core **ESP32-C3** with RainMaker and Bluetooth provisioning, specific optimizations were applied in `sdkconfig.defaults`:
+* **Stack Size Optimization:** Increased `CONFIG_FREERTOS_TIMER_TASK_STACK_DEPTH` to 4096 to prevent stack overflow during heavy logging.
+* **Bluetooth:** Explicitly enabled `Bluedroid` (Dual-mode) to ensure successful provisioning.
+* **Memory:** Partition table set to `custom` to accommodate the application and OTA partitions.
+
+## 🚀 Getting Started
+
+### 1. Prerequisites
+* VS Code with **ESP-IDF Extension**.
+* ESP-IDF v5.x installed.
+
+### 2. Clone the Repository
+```bash
+git clone [https://github.com/YOUR_USERNAME/EEM5043-Smart-Home-System.git](https://github.com/YOUR_USERNAME/EEM5043-Smart-Home-System.git)
+cd EEM5043-Smart-Home-System
