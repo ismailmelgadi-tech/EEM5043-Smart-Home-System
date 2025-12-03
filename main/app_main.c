@@ -1,4 +1,4 @@
-/* app_main.c - نسخة مستقرة بدون أخطاء Insights */
+/* app_main.c */
 #include <string.h>
 #include <stdio.h>
 #include "freertos/FreeRTOS.h"
